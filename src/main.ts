@@ -10,7 +10,8 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter({ logger: true })
   );
-  await app.listen(3000, '0.0.0.0');
+  app.setGlobalPrefix('v1')
+  await app.listen(3000, '0.0.0.0')
 }
 
 bootstrap();

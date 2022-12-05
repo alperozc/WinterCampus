@@ -6,6 +6,9 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "typeorm": "npx typeorm -d dist/db/data-source.js",
+    "migration:generate": "npm run typeorm migration:generate",
+    "migration:create": "npm run typeorm -- migration:create",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

@@ -1,17 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { dataSourceOptions } from 'db/data-source';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mongodb',
-      host: '127.0.0.1',
-      port: 27017,
-      database: 'wintercampus',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,
-      useUnifiedTopology: true,
-    }),
+    TypeOrmModule.forRoot(dataSourceOptions),
+    UsersModule,
   ],
   controllers: [],
   providers: [],
