@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, UsePipes } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UsePipes } from '@nestjs/common';
 import { ValidationPipe } from '@nestjs/common/pipes';
 import { CreateUserDTO, UpdateUserDTO } from './dto/users.dto';
 import { UsersService } from './users.service';
@@ -27,6 +27,11 @@ export class UsersController {
     @Put(':id')
     async updateUser(@Param('id') id: string, @Body() userDTO: UpdateUserDTO) {
         return this.usersService.updateUser(id, userDTO)
+    }
+
+    @Delete(':id')
+    async deleteUser(@Param('id') id: string) {
+        return this.usersService.deleteUser(id).then(() => 'User deleted')
     }
 
 

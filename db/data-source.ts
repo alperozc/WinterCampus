@@ -6,6 +6,7 @@ export const dataSourceOptions: DataSourceOptions = {
     port: 27017,
     database: 'wintercampus',
     entities: ['dist/src/**/*.entity{.js,.ts}'],
+    migrations: ['dist/db/migrations/*{.js,.ts}'],
     synchronize: true,
     useUnifiedTopology: true,
 }

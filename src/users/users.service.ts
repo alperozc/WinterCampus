@@ -44,4 +44,10 @@ export class UsersService {
         return UserDTO.toJson(saved)
     }
 
+    async deleteUser(id: string) {
+        const user = await this.usersRepository.findOne(id as any).catch(() => null)
+        if (!user) throw new NotFoundException('User not found')
+        return this.usersRepository.delete(id as any)
+    }
+
 }
