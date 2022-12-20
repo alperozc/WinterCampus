@@ -4,7 +4,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDTO, UpdateUserDTO, UserDTO } from './dto/users.dto';
 import { User } from './users.entity';
 import { Repository } from 'typeorm';
-import { validate } from 'class-validator';
 
 @Injectable()
 export class UsersService {
