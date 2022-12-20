@@ -5,6 +5,7 @@ import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
 import { FacultiesModule } from './faculties/faculties.module';
 import { DepartmentsModule } from './departments/departments.module';
+import { InstitutesModule } from './institutes/institutes.module';
 
 @Module({
   imports: [
@@ -13,8 +14,8 @@ import { DepartmentsModule } from './departments/departments.module';
     RolesModule,
     FacultiesModule,
     DepartmentsModule,
+    InstitutesModule,
   ],
-  controllers: [],
   providers: [],
 })
 export class AppModule { }

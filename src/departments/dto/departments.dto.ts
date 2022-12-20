@@ -1,20 +1,22 @@
 import { IsNotEmpty, MinLength } from "class-validator";
 import { Department } from "../departments.entity";
 import { Faculty } from "src/faculties/faculties.entity";
+import { Institute } from "src/institutes/institutes.entity";
 
 export class CreateDepartmentDTO {
     @IsNotEmpty()
     @MinLength(3)
     name: string;
 
-    @IsNotEmpty()
     faculty: Faculty;
+    institute: Institute;
 }
 
 export class GetDepartmentDTO {
     id: number;
     name: string;
     faculty: Faculty;
+    institute: Institute;
 }
 
 export class UpdateDepartmentDTO extends CreateDepartmentDTO {
@@ -26,7 +28,8 @@ export class DepartmentDTO {
         return {
             id: Department.id,
             name: Department.name,
-            faculty: Department.faculty
+            faculty: Department.faculty,
+            institute: Department.institute
         }
     }
 
@@ -38,7 +41,8 @@ export class DepartmentDTO {
     static toUpdateJson(Department: UpdateDepartmentDTO) {
         return {
             name: Department.name,
-            facultyId: Department.faculty
+            faculty: Department.faculty,
+            institute: Department.institute
         }
     }
 

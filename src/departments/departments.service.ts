@@ -26,6 +26,10 @@ export class DepartmentsService {
     async createDepartment(departmentDTO: CreateDepartmentDTO) {
         const faculty = await this.departmentRepository.manager.findOne('faculty', { where: { id: departmentDTO.faculty } }).catch(() => null)
         if (!faculty) throw new NotFoundException('Faculty not found')
+
+        const institute = await this.departmentRepository.manager.findOne('institute', { where: { id: departmentDTO.institute } }).catch(() => null)
+        if (!institute) throw new NotFoundException('Institute not found')
+
         const department = this.departmentRepository.create(departmentDTO)
 
         return this.departmentRepository.save(department).catch(err => {
