@@ -12,7 +12,7 @@ export class CreateDepartmentDTO {
 }
 
 export class GetDepartmentDTO {
-    _id: string;
+    id: number;
     name: string;
     faculty: Faculty;
 }
@@ -24,7 +24,7 @@ export class UpdateDepartmentDTO extends CreateDepartmentDTO {
 export class DepartmentDTO {
     static toJson(Department: Department): GetDepartmentDTO {
         return {
-            _id: Department._id,
+            id: Department.id,
             name: Department.name,
             faculty: Department.faculty
         }

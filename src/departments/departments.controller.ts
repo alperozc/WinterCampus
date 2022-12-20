@@ -12,7 +12,7 @@ export class DepartmentsController {
     }
 
     @Get(':id')
-    getDepartment(@Param('id') id: string) {
+    getDepartment(@Param('id') id: number) {
         return this.departmentService.getDepartment(id)
     }
 
@@ -24,12 +24,12 @@ export class DepartmentsController {
 
     @Put(':id')
     @UsePipes(ValidationPipe)
-    updateDepartment(@Param('id') id: string, @Body() departmentDTO: UpdateDepartmentDTO) {
+    updateDepartment(@Param('id') id: number, @Body() departmentDTO: UpdateDepartmentDTO) {
         return this.departmentService.updateDepartment(id, departmentDTO)
     }
 
     @Delete(':id')
-    deleteDepartment(@Param('id') id: string) {
+    deleteDepartment(@Param('id') id: number) {
         return this.departmentService.deleteDepartment(id).then(() => 'Department deleted')
     }
 

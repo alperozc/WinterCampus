@@ -1,17 +1,17 @@
 import { Department } from "src/departments/departments.entity";
-import { Column, Entity, ObjectIdColumn, OneToMany } from "typeorm";
+import { Column, Entity, ObjectIdColumn, OneToMany, PrimaryColumn } from "typeorm";
 
 @Entity()
 export class Faculty {
-    @ObjectIdColumn()
-    _id: string;
+    /* @ObjectIdColumn()
+    _id: string; */
 
-    /* @PrimaryColumn({ default: true, unique: true })
-    id = 0;
- */
+    @PrimaryColumn({ unique: true, type: 'int', generated: 'identity' })
+    id: number;
+
     @Column({ unique: true })
     name: string;
 
-    @OneToMany(() => Department, (department: Department) => department.faculty)
+    @OneToMany(() => Department, (department: Department) => department.faculty, { cascade: true })
     departments: Department[];
 }

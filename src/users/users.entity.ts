@@ -1,13 +1,13 @@
-import { Column, Entity, ObjectIdColumn } from "typeorm";
+import { Column, Entity, ObjectIdColumn, PrimaryColumn } from "typeorm";
 
 @Entity()
 export class User {
-    @ObjectIdColumn()
-    _id: string;
+    /* @ObjectIdColumn()
+    _id: string; */
 
-    /* @PrimaryColumn({ default: true, unique: true })
-    id = 0;
- */
+    @PrimaryColumn({ unique: true, type: 'int', generated: true })
+    id: number;
+
     @Column({ unique: true })
     username: string;
 

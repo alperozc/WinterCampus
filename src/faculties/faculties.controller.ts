@@ -13,7 +13,7 @@ export class FacultiesController {
     }
 
     @Get(':id')
-    getFaculty(@Param('id') id: string) {
+    getFaculty(@Param('id') id: number) {
         return this.facultyService.getFaculty(id)
     }
 
@@ -25,12 +25,12 @@ export class FacultiesController {
 
     @Put(':id')
     @UsePipes(ValidationPipe)
-    updateFaculty(@Param('id') id: string, @Body() facultyDTO: CreateFacultyDTO) {
+    updateFaculty(@Param('id') id: number, @Body() facultyDTO: CreateFacultyDTO) {
         return this.facultyService.updateFaculty(id, facultyDTO)
     }
 
     @Delete(':id')
-    deleteFaculty(@Param('id') id: string) {
+    deleteFaculty(@Param('id') id: number) {
         return this.facultyService.deleteFaculty(id).then(() => 'Faculty deleted')
     }
 }

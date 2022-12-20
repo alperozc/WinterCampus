@@ -13,38 +13,39 @@ export class DepartmentsService {
     ) { }
 
     async getDepartments() {
-        return this.departmentRepository.find({ relations: ['faculty'] })
-        const departments = await this.departmentRepository.find()
+        const departments = await this.departmentRepository.find({ relations: ['faculty'] })
         return DepartmentDTO.toJsonMap(departments)
     }
 
-    async getDepartment(id: string) {
-        return this.departmentRepository.findOne(id as any).catch(() => null)
-        const department = await this.departmentRepository.findOne(id as any).catch(() => null)
+    async getDepartment(id: number) {
+        const department = await this.departmentRepository.findOne({ where: { id }, relations: ['faculty'] }).catch(() => null)
         if (!department) throw new NotFoundException('Department not found')
         return DepartmentDTO.toJson(department)
     }
 
     async createDepartment(departmentDTO: CreateDepartmentDTO) {
+        const faculty = await this.departmentRepository.manager.findOne('faculty', { where: { id: departmentDTO.faculty } }).catch(() => null)
+        if (!faculty) throw new NotFoundException('Faculty not found')
         const department = this.departmentRepository.create(departmentDTO)
 
         return this.departmentRepository.save(department).catch(err => {
             if (err.code === 11000)
                 throw new ConflictException('Department already exists')
+            throw err
         })
     }
 
-    async updateDepartment(id: string, departmentDTO: CreateDepartmentDTO) {
-        const department = await this.departmentRepository.findOne(id as any).catch(() => null)
+    async updateDepartment(id: number, departmentDTO: CreateDepartmentDTO) {
+        const department = await this.departmentRepository.findOneBy({ id }).catch(() => null)
         if (!department) throw new NotFoundException('Department not found')
         this.departmentRepository.merge(department, DepartmentDTO.toUpdateJson(departmentDTO))
         const saved = await this.departmentRepository.save(department)
         return DepartmentDTO.toJson(saved)
     }
 
-    async deleteDepartment(id: string) {
-        const department = await this.departmentRepository.findOne(id as any).catch(() => null)
+    async deleteDepartment(id: number) {
+        const department = await this.departmentRepository.findOneBy({ id }).catch(() => null)
         if (!department) throw new NotFoundException('Department not found')
-        return this.departmentRepository.delete(id as any)
+        return this.departmentRepository.delete(id)
     }
 }

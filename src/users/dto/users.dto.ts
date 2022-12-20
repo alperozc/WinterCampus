@@ -15,7 +15,7 @@ export class CreateUserDTO {
 }
 
 export class GetUserDTO {
-    _id: string;
+    id: number;
     username: string;
     email: string;
 }
@@ -27,7 +27,7 @@ export class UpdateUserDTO extends CreateUserDTO {
 export class UserDTO {
     static toJson(user: User): GetUserDTO {
         return {
-            _id: user._id,
+            id: user.id,
             username: user.username,
             email: user.email
         }

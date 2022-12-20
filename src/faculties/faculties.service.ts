@@ -13,12 +13,12 @@ export class FacultiesService {
     ) { }
 
     async getFaculties() {
-        const faculties = await this.facultyRepository.find()
+        const faculties = await this.facultyRepository.find({ relations: ['departments'] })
         return FacultyDTO.toJsonMap(faculties)
     }
 
-    async getFaculty(id: string) {
-        const faculty = await this.facultyRepository.findOne(id as any).catch(() => null)
+    async getFaculty(id: number) {
+        const faculty = await this.facultyRepository.findOne({ where: { id: id }, relations: ['departments'] }).catch(() => null)
         if (!faculty) throw new NotFoundException('Faculty not found')
         return FacultyDTO.toJson(faculty)
     }
@@ -32,18 +32,18 @@ export class FacultiesService {
         });
     }
 
-    async updateFaculty(id: string, facultyDTO: UpdateFacultyDTO) {
-        const faculty = await this.facultyRepository.findOne(id as any).catch(() => null)
+    async updateFaculty(id: number, facultyDTO: UpdateFacultyDTO) {
+        const faculty = await this.facultyRepository.findOneBy({ id }).catch(() => null)
         if (!faculty) throw new NotFoundException('Faculty not found')
         this.facultyRepository.merge(faculty, FacultyDTO.toUpdateJson(facultyDTO))
         const saved = await this.facultyRepository.save(faculty)
         return FacultyDTO.toJson(saved)
     }
 
-    async deleteFaculty(id: string) {
-        const faculty = await this.facultyRepository.findOne(id as any).catch(() => null)
+    async deleteFaculty(id: number) {
+        const faculty = await this.facultyRepository.findOneBy({ id }).catch(() => null)
         if (!faculty) throw new NotFoundException('Faculty not found')
-        return this.facultyRepository.delete(id as any)
+        return this.facultyRepository.delete(id)
     }
 
 }
