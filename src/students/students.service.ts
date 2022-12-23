@@ -35,7 +35,7 @@ export class StudentsService {
     }
 
     async updateStudent(id: number, userDTO: UpdateStudentDTO) {
-        const student = await this.studentRepository.findOneBy({ id }).catch(() => null)
+        const student = await this.studentRepository.findOne({ where: { id: id }, relations: ['department', 'user'] }).catch(() => null)
         if (!student) throw new NotFoundException('Student not found')
         this.studentRepository.merge(student, StudentDTO.toUpdateJson(userDTO))
         const saved = await this.studentRepository.save(student)

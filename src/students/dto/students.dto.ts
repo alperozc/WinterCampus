@@ -26,7 +26,12 @@ export class GetStudentDTO {
     lessons: Lesson[];
 }
 
-export class UpdateStudentDTO extends CreateStudentDTO {
+export class UpdateStudentDTO /*extends CreateStudentDTO*/ {
+
+    department: Department;
+    year: number;
+    semester: number;
+    lessons: Lesson[];
 }
 
 
@@ -49,7 +54,6 @@ export class StudentDTO {
 
     static toUpdateJson(student: UpdateStudentDTO) {
         return {
-            department: student.department,
             year: student.year,
             semester: student.semester,
             lessons: student.lessons
