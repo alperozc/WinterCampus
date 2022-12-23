@@ -10,14 +10,18 @@ export class CreateUserDTO {
     @MinLength(6)
     password: string;
 
-    @IsNotEmpty() @IsEmail()
-    email: string;
+    @IsNotEmpty()
+    name: string;
+
+    @IsNotEmpty()
+    surname: string;
 }
 
 export class GetUserDTO {
     id: number;
     username: string;
-    email: string;
+    name: string;
+    surname: string;
 }
 
 export class UpdateUserDTO extends CreateUserDTO {
@@ -29,7 +33,8 @@ export class UserDTO {
         return {
             id: user.id,
             username: user.username,
-            email: user.email
+            name: user.name,
+            surname: user.surname,
         }
     }
 
@@ -42,7 +47,8 @@ export class UserDTO {
         return {
             username: user.username,
             password: user.password,
-            email: user.email,
+            name: user.name,
+            surname: user.surname,
         }
     }
 

@@ -29,22 +29,22 @@ export class UsersService {
         return UserDTO.toJsonMap(users)
     }
 
-    async getUser(id: string) {
-        const user = await this.usersRepository.findOne(id as any).catch(() => null)
+    async getUser(id: number) {
+        const user = await this.usersRepository.findOneBy({ id }).catch(() => null)
         if (!user) throw new NotFoundException('User not found')
         return UserDTO.toJson(user)
     }
 
-    async updateUser(id: string, userDTO: UpdateUserDTO) {
-        const user = await this.usersRepository.findOne(id as any).catch(() => null)
+    async updateUser(id: number, userDTO: UpdateUserDTO) {
+        const user = await this.usersRepository.findOneBy({ id }).catch(() => null)
         if (!user) throw new NotFoundException('User not found')
         this.usersRepository.merge(user, UserDTO.toUpdateJson(userDTO))
         const saved = await this.usersRepository.save(user)
         return UserDTO.toJson(saved)
     }
 
-    async deleteUser(id: string) {
-        const user = await this.usersRepository.findOne(id as any).catch(() => null)
+    async deleteUser(id: number) {
+        const user = await this.usersRepository.findOneBy({ id }).catch(() => null)
         if (!user) throw new NotFoundException('User not found')
         return this.usersRepository.delete(id as any)
     }

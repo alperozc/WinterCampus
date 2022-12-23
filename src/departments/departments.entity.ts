@@ -1,6 +1,8 @@
 import { Faculty } from 'src/faculties/faculties.entity';
 import { Institute } from 'src/institutes/institutes.entity';
-import { Entity, Column, ObjectIdColumn, ManyToOne, JoinColumn, PrimaryColumn } from 'typeorm';
+import { Lesson } from 'src/lessons/lessons.entity';
+import { Student } from 'src/students/students.entity';
+import { Entity, Column, ObjectIdColumn, ManyToOne, JoinColumn, PrimaryColumn, OneToMany } from 'typeorm';
 
 @Entity()
 export class Department {
@@ -20,5 +22,13 @@ export class Department {
     @ManyToOne(() => Institute, (institute: Institute) => institute.departments, { onDelete: 'CASCADE' })
     @JoinColumn()
     institute: Institute;
+
+    @ManyToOne(() => Lesson, (lesson: Lesson) => lesson.departments, { onDelete: 'CASCADE' })
+    @JoinColumn()
+    lessons: Lesson[];
+
+    @OneToMany(() => Student, (student: Student) => student.department, { onDelete: 'CASCADE' })
+    @JoinColumn()
+    students: Student[];
 
 }

@@ -6,6 +6,8 @@ import { RolesModule } from './roles/roles.module';
 import { FacultiesModule } from './faculties/faculties.module';
 import { DepartmentsModule } from './departments/departments.module';
 import { InstitutesModule } from './institutes/institutes.module';
+import { StudentsModule } from './students/students.module';
+import { LessonsModule } from './lessons/lessons.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { InstitutesModule } from './institutes/institutes.module';
     FacultiesModule,
     DepartmentsModule,
     InstitutesModule,
+    StudentsModule,
+    LessonsModule,
   ],
   providers: [],
 })
