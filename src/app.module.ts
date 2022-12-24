@@ -9,10 +9,13 @@ import { InstitutesModule } from './institutes/institutes.module';
 import { StudentsModule } from './students/students.module';
 import { LessonsModule } from './lessons/lessons.module';
 import { TeachersModule } from './teachers/teachers.module';
+import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(dataSourceOptions),
+    ConfigModule.forRoot(),
     UsersModule,
     RolesModule,
     FacultiesModule,
@@ -21,6 +24,7 @@ import { TeachersModule } from './teachers/teachers.module';
     StudentsModule,
     LessonsModule,
     TeachersModule,
+    AuthModule,
   ],
   providers: [],
 })

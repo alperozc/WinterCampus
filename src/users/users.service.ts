@@ -17,11 +17,11 @@ export class UsersService {
     async createUser(userDTO: CreateUserDTO) {
         const user = this.usersRepository.create(userDTO)
 
-        return this.usersRepository.save(user).catch(err => {
-            if (err.code === 11000) {
-                throw new ConflictException('User already exists')
-            }
-        });
+        // Check if user already exists
+        const userExists = await this.usersRepository.findOneBy({ username: userDTO.username }).catch(() => null)
+        if (userExists) throw new ConflictException('User already exists')
+
+        return this.usersRepository.save(user)
     }
 
     async getUsers() {
@@ -33,6 +33,19 @@ export class UsersService {
         const user = await this.usersRepository.findOneBy({ id }).catch(() => null)
         if (!user) throw new NotFoundException('User not found')
         return UserDTO.toJson(user)
+    }
+
+    // DO NOT USE THIS METHOD IN REQUEST RETURN STATEMENTS
+    async getUserByID(id: number) {
+        const user = await this.usersRepository.findOneBy({ id }).catch(() => null)
+        if (!user) throw new NotFoundException('User not found')
+        return user
+    }
+
+    async findUserByUsername(username: string) {
+        const user = await this.usersRepository.findOneBy({ username }).catch(() => null)
+        if (!user) throw new NotFoundException('User not found')
+        return user
     }
 
     async updateUser(id: number, userDTO: UpdateUserDTO) {
