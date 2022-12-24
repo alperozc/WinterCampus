@@ -1,5 +1,6 @@
 import { Student } from "src/students/students.entity";
-import { Column, Entity, ManyToOne, ObjectIdColumn, OneToMany, PrimaryColumn } from "typeorm";
+import { Teacher } from "src/teachers/teachers.entity";
+import { Column, Entity, Index, JoinColumn, ManyToOne, ObjectIdColumn, OneToMany, OneToOne, PrimaryColumn, Unique } from "typeorm";
 
 @Entity()
 export class User {
@@ -23,5 +24,9 @@ export class User {
 
     @OneToMany(() => Student, (student: Student) => student.user, { cascade: true })
     students: Student[];
+
+    @OneToOne(() => Teacher, (teacher: Teacher) => teacher.user, { onDelete: 'CASCADE' })
+    @JoinColumn()
+    teacher: Teacher;
 
 }

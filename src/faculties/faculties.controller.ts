@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UsePipes, ValidationPipe } from '@nestjs/common';
 import { FacultiesService } from './faculties.service';
-import { CreateFacultyDTO } from './dto/faculties.dto';
+import { CreateFacultyDTO, UpdateFacultyDTO } from './dto/faculties.dto';
 
 @Controller('faculties')
 export class FacultiesController {
@@ -25,7 +25,7 @@ export class FacultiesController {
 
     @Put(':id')
     @UsePipes(ValidationPipe)
-    updateFaculty(@Param('id') id: number, @Body() facultyDTO: CreateFacultyDTO) {
+    updateFaculty(@Param('id') id: number, @Body() facultyDTO: UpdateFacultyDTO) {
         return this.facultyService.updateFaculty(id, facultyDTO)
     }
 

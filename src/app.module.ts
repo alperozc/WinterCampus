@@ -8,6 +8,7 @@ import { DepartmentsModule } from './departments/departments.module';
 import { InstitutesModule } from './institutes/institutes.module';
 import { StudentsModule } from './students/students.module';
 import { LessonsModule } from './lessons/lessons.module';
+import { TeachersModule } from './teachers/teachers.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { LessonsModule } from './lessons/lessons.module';
     InstitutesModule,
     StudentsModule,
     LessonsModule,
+    TeachersModule,
   ],
   providers: [],
 })

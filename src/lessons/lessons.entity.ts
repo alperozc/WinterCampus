@@ -1,6 +1,7 @@
 import { Department } from "src/departments/departments.entity";
 import { Student } from "src/students/students.entity";
-import { Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
+import { Teacher } from "src/teachers/teachers.entity";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
 
 @Entity()
 export class Lesson {
@@ -11,7 +12,8 @@ export class Lesson {
     @Column({ unique: true })
     name: string;
 
-    @OneToMany(() => Department, (department: Department) => department.lessons, { cascade: true })
+    @ManyToMany(() => Department, (department: Department) => department.lessons, { onDelete: 'CASCADE' })
+    @JoinColumn()
     departments: Department[];
 
     @Column({ nullable: false, default: 1, type: 'int' })
@@ -20,6 +22,11 @@ export class Lesson {
     @Column({ nullable: false, default: 1, type: 'int' })
     semester: number;
 
-    @ManyToOne(() => Student, (student: Student) => student.lessons, { cascade: true })
+    @ManyToMany(() => Student, (student: Student) => student.lessons, { onDelete: 'CASCADE' })
+    @JoinTable()
     students: Student[];
+
+    @ManyToOne(() => Teacher, (teacher: Teacher) => teacher.lessons, { onDelete: 'CASCADE' })
+    @JoinColumn()
+    teacher: Teacher;
 }

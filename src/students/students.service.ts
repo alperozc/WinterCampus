@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Student } from './students.entity';
-import { QueryFailedError, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateStudentDTO, StudentDTO, UpdateStudentDTO } from './dto/students.dto';
 
@@ -26,6 +26,11 @@ export class StudentsService {
 
     async createStudent(studentDTO: CreateStudentDTO) {
         const student = this.studentRepository.create(studentDTO)
+
+        // Check user exists
+        const user = await this.studentRepository.manager.findOne('user', { where: { id: studentDTO.user } }).catch(() => null)
+        if (!user) throw new NotFoundException('User not found')
+
         if (student.department) {
             const department = await this.studentRepository.manager.findOne('department', { where: { id: studentDTO.department } }).catch(() => null)
             if (!department) throw new NotFoundException('Department not found')
@@ -37,6 +42,12 @@ export class StudentsService {
     async updateStudent(id: number, userDTO: UpdateStudentDTO) {
         const student = await this.studentRepository.findOne({ where: { id: id }, relations: ['department', 'user'] }).catch(() => null)
         if (!student) throw new NotFoundException('Student not found')
+
+        if (userDTO.department) {
+            const department = await this.studentRepository.manager.findOne('department', { where: { id: userDTO.department } }).catch(() => null)
+            if (!department) throw new NotFoundException('Department not found')
+        }
+
         this.studentRepository.merge(student, StudentDTO.toUpdateJson(userDTO))
         const saved = await this.studentRepository.save(student)
         return StudentDTO.toJson(saved)
