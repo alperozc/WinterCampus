@@ -1,12 +1,9 @@
 import { Student } from "src/students/students.entity";
 import { Teacher } from "src/teachers/teachers.entity";
-import { Column, Entity, Index, JoinColumn, ManyToOne, ObjectIdColumn, OneToMany, OneToOne, PrimaryColumn, Unique } from "typeorm";
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn } from "typeorm";
 
 @Entity()
 export class User {
-    /* @ObjectIdColumn()
-    _id: string; */
-
     @PrimaryColumn({ unique: true, type: 'int', generated: true })
     id: number;
 
