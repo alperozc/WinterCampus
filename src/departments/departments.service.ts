@@ -18,7 +18,7 @@ export class DepartmentsService {
     }
 
     async getDepartment(id: number) {
-        const department = await this.departmentRepository.findOne({ where: { id }, relations: ['faculty'] }).catch(() => null)
+        const department = await this.departmentRepository.findOne({ where: { id }, relations: ['faculty', 'teachers', 'students'] }).catch(() => null)
         if (!department) throw new NotFoundException('Department not found')
         return DepartmentDTO.toJson(department)
     }

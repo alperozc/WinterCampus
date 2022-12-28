@@ -2,6 +2,8 @@ import { IsNotEmpty, MinLength } from "class-validator";
 import { Department } from "../departments.entity";
 import { Faculty } from "src/faculties/faculties.entity";
 import { Institute } from "src/institutes/institutes.entity";
+import { Student } from "src/students/students.entity";
+import { Teacher } from "src/teachers/teachers.entity";
 
 export class CreateDepartmentDTO {
     @IsNotEmpty()
@@ -17,6 +19,8 @@ export class GetDepartmentDTO {
     name: string;
     faculty: Faculty;
     institute: Institute;
+    students: Student[];
+    teachers: Teacher[];
 }
 
 export class UpdateDepartmentDTO extends CreateDepartmentDTO {
@@ -29,7 +33,9 @@ export class DepartmentDTO {
             id: Department.id,
             name: Department.name,
             faculty: Department.faculty,
-            institute: Department.institute
+            institute: Department.institute,
+            students: Department.students,
+            teachers: Department.teachers
         }
     }
 

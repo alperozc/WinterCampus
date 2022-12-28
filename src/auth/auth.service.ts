@@ -28,6 +28,7 @@ export class AuthService {
             const payload = { id: user.id }
 
             return {
+                user: UserDTO.toJson(user),
                 access_token: this.jwtService.sign(payload),
                 expires_in: this.configService.get('JWT_EXPIRATION_TIME')
             }

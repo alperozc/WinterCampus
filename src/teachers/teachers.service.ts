@@ -13,12 +13,12 @@ export class TeachersService {
     ) { }
 
     async getTeachers() {
-        const teachers = await this.teacherRepository.find({ relations: ['departments', 'user'] });
+        const teachers = await this.teacherRepository.find({ relations: ['departments', 'user', 'lessons'] });
         return TeacherDTO.toJsonMap(teachers);
     }
 
     async getTeacher(id: number) {
-        const teacher = await this.teacherRepository.findOne({ where: { id: id }, relations: ['departments', 'user'] }).catch(() => null);
+        const teacher = await this.teacherRepository.findOne({ where: { id: id }, relations: ['departments', 'user', 'lessons'] }).catch(() => null);
         if (!teacher) throw new NotFoundException('Teacher not found');
         return TeacherDTO.toJson(teacher);
     }

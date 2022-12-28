@@ -1,6 +1,7 @@
+import { Role } from "src/roles/roles.entity";
 import { Student } from "src/students/students.entity";
 import { Teacher } from "src/teachers/teachers.entity";
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToMany, OneToMany, OneToOne, PrimaryColumn } from "typeorm";
 
 @Entity()
 export class User {
@@ -25,5 +26,9 @@ export class User {
     @OneToOne(() => Teacher, (teacher: Teacher) => teacher.user, { onDelete: 'CASCADE' })
     @JoinColumn()
     teacher: Teacher;
+
+    @ManyToMany(() => Role, (role: Role) => role.users, { cascade: true })
+    @JoinColumn()
+    roles: Role[];
 
 }

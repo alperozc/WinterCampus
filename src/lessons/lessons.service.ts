@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Lesson } from './lessons.entity';
 import { Repository } from 'typeorm';
 import { CreateLessonDTO, LessonDTO, UpdateLessonDTO } from './dto/lessons.dto';
+import { Student } from 'src/students/students.entity';
+import { User } from 'src/users/users.entity';
 
 @Injectable()
 export class LessonsService {
@@ -96,5 +98,49 @@ export class LessonsService {
         const lesson = await this.lessonRepository.findOneBy({ id }).catch(() => null)
         if (!lesson) throw new NotFoundException('Lesson not found')
         return this.lessonRepository.delete(id)
+    }
+
+
+    // Student methods
+
+    async addStudentToLesson(studentId: number, lessonId: number) {
+        const lesson = await this.lessonRepository.findOne({ where: { id: lessonId }, relations: ['students', 'departments'] }).catch(() => null) as Lesson
+        if (!lesson) throw new NotFoundException('Lesson not found')
+
+        const student = await this.lessonRepository.manager.findOne('student', { where: { id: studentId }, relations: ['lessons', 'department'] }).catch(() => null) as Student
+        if (!student) throw new NotFoundException('Student not found')
+
+        if (student.lessons?.find(l => l.id === lessonId)) throw new BadRequestException('Student already in lesson')
+
+        if (!lesson.departments?.some(d => student.department.id == d.id)) throw new BadRequestException('Student not in department')
+
+        lesson.students.push(student)
+        return this.lessonRepository.save(lesson)
+    }
+
+    async removeStudentFromLesson(studentId: number, lessonId: number) {
+        const student = await this.lessonRepository.manager.findOne('student', { where: { id: studentId }, relations: ['lessons', 'department'] }).catch(() => null) as Student
+        if (!student) throw new NotFoundException('Student not found')
+
+        const lesson = await this.lessonRepository.findOne({ where: { id: lessonId }, relations: ['students'] }).catch(() => null) as Lesson
+        if (!lesson) throw new NotFoundException('Lesson not found')
+
+
+        if (!student.lessons?.some(l => l.id == lessonId)) throw new BadRequestException('Student not in lesson')
+
+        lesson.students = lesson.students.filter(s => s.id != studentId)
+        return this.lessonRepository.save(lesson)
+    }
+
+    async addLessonToSelf(user: User, lessonId: number) {
+        const student = await this.lessonRepository.manager.findOne('student', { where: { user: user.id } }).catch(() => null) as Student
+        if (!student) throw new NotFoundException('Student not found')
+        return this.addStudentToLesson(student?.id, lessonId)
+    }
+
+    async removeLessonFromSelf(user: User, lessonId: number) {
+        const student = await this.lessonRepository.manager.findOne('student', { where: { user: user.id } }).catch(() => null) as Student
+        if (!student) throw new NotFoundException('Student not found')
+        return this.removeStudentFromLesson(student?.id, lessonId)
     }
 }
