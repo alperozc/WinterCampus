@@ -17,13 +17,15 @@ export class AuthService {
     ) { }
 
     async register(registerDTO: RegisterDTO) {
-        const hashedPassword = await bcrypt.hash(registerDTO.password, 10)
-        const user = await this.usersService.createUser({ ...registerDTO, password: hashedPassword })
+        //const hashedPassword = await bcrypt.hash(registerDTO.password, 10)
+        //const user = await this.usersService.createUser({ ...registerDTO, password: hashedPassword })
+        const user = await this.usersService.createUser(registerDTO) // Will be hashed in the userService.createUser() method
         return UserDTO.toJson(user)
     }
 
     async login(loginDTO: LoginDTO) {
         const user = await this.usersService.findUserByUsername(loginDTO.username)
+        console.log(loginDTO.password, user.password)
         if (await bcrypt.compare(loginDTO.password, user.password)) {
             const payload = { id: user.id }
 
